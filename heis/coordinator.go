@@ -96,27 +96,27 @@ func main() {
 			changesMade = true
 
 		case <-tickChan:
-			//if changesMade {
-			/*
-				if iterateThroughOrders(DOWN, N_FLOORS, takeGlobalOrder) {
-					fsmChan <- LocalOrders
-				}
-			*/
-			// apply mask to GlobalOrders
-			// send mask
-			// zero mask
-			printOrders()
-			changesMade = false
-			iterateThroughOrders(COMMAND, N_FLOORS, setLights)
+			if changesMade {
+				/*
+					if iterateThroughOrders(DOWN, N_FLOORS, takeGlobalOrder) {
+						fsmChan <- LocalOrders
+					}
+				*/
+				// apply mask to GlobalOrders
+				// send mask
+				// zero mask
+				printOrders()
+				changesMade = false
+				iterateThroughOrders(COMMAND, N_FLOORS, setLights)
 
-			data, _ := json.Marshal(LocalOrders)
-			_ = ioutil.WriteFile("./backupdata", data, 0644)
-			if online {
-				for i := 0; i < 1; i++ {
-					outgoingCh <- EncodeGlobalPacket()
+				data, _ := json.Marshal(LocalOrders)
+				_ = ioutil.WriteFile("./backupdata", data, 0644)
+				if online {
+					for i := 0; i < 1; i++ {
+						outgoingCh <- EncodeGlobalPacket()
+					}
 				}
 			}
-			//			}
 
 		case msg := <-incomingCh:
 			var GlobalPacketDEC GlobalOrderStruct
