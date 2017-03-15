@@ -1,9 +1,9 @@
-package networkmodule
+package NetworkModule
 
 import(
-	_"fmt"
-	"./ringnode"
-	"./networkmonitor"
+	"fmt"
+	"./RingNode"
+	"./NetworkMonitor"
 )
 
 const (
@@ -16,8 +16,10 @@ const (
 func Init(packetChannel chan string, monitorChannel chan string){
 	updateChannel := make(chan string)
 	
-	go ringnode.RingNode(packetChannel, updateChannel, TCPPortIn, TCPPortOut)
-	networkmonitor.JoinNetwork(monitorChannel, updateChannel, UDPPort, UDPPasscode)
-	return
+	
+	RingNode.Init(packetChannel, updateChannel, TCPPortIn, TCPPortOut)
+	NetworkMonitor.StartListening(monitorChannel)
+	return true
 }
 
+func monitorNetwork(monitorChannel, updateChannel){}
